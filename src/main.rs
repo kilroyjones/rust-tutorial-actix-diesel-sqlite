@@ -7,11 +7,11 @@ mod schema;
 
 use actix_web::{web, App, HttpServer};
 use diesel::r2d2::{self, ConnectionManager};
-use diesel::SqliteConnection;
+use diesel::sqlite::SqliteConnection;
 
 pub type Pool = r2d2::Pool<ConnectionManager<SqliteConnection>>;
 
-#[actix_rt::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
 
