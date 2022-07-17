@@ -22,7 +22,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .data(database_pool.clone())
+            .app_data(web::Data::new(database_pool.clone()))
             .route("/", web::get().to(routes::home))
             .route("/addlink", web::post().to(routes::add_link))
             .route("/getlinks", web::get().to(routes::get_links))
