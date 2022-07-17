@@ -1,18 +1,15 @@
 [package]
 name = "demo"
 version = "0.1.0"
-authors = ["kilroy <kilroyjones@protonmail.com>"]
-edition = "2018"
+authors = ["kilroy <kilroyjones@protonmail.com>", "M. Yas. Davoodeh <MYDavoodeh@gmail.com>"]
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-actix-web = "2.0"
-actix-rt = "1.1.1"
-diesel = { version = "1.4.5", features = ["sqlite", "r2d2"]}
+actix-web = "4.1.0"
+diesel = { version = "1.4.4", features = ["postgres", "uuidv07", "r2d2", "chrono"] }
 dotenv = "0.15.0"
-serde = "1.0"
-serde_derive = "1.0"
-serde_json = "1.0"
-anyhow = "1.0"
-chrono = "0.4.15"
+serde = { version = "1.0.139", features = ["derive"] }
+anyhow = "1.0.58"
+chrono = { version = "0.4.19", features = ["serde"] }
