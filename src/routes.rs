@@ -18,10 +18,12 @@ pub async fn add_link(
     pool: web::Data<Pool>,
     item: web::Json<LinkJson>,
 ) -> Result<HttpResponse, Error> {
-    Ok(web::block(move || add_single_link(pool, item))
-        .await
-        .map(|link| HttpResponse::Created().json(link))
-        .map_err(|_| HttpResponse::InternalServerError())?)
+    Ok(
+        match web::block(move || add_single_link(pool, item)).await {
+            Ok(Ok(link)) => HttpResponse::Created().json(link),
+            _ => HttpResponse::from(HttpResponse::InternalServerError()),
+        },
+    )
 }
 
 fn add_single_link(
@@ -55,10 +57,10 @@ fn add_single_link(
 }
 
 pub async fn get_links(pool: web::Data<Pool>) -> Result<HttpResponse, Error> {
-    Ok(get_all_links(pool)
-        .await
-        .map(|links| HttpResponse::Ok().json(links))
-        .map_err(|_| HttpResponse::InternalServerError())?)
+    Ok(match get_all_links(pool).await {
+        Ok(links) => HttpResponse::Ok().json(links),
+        _ => HttpResponse::from(HttpResponse::InternalServerError()),
+    })
 }
 
 async fn get_all_links(pool: web::Data<Pool>) -> Result<Vec<Link>, diesel::result::Error> {
